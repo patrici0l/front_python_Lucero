@@ -1,11 +1,34 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Component({
-  selector: 'app-vehiculos',
-  imports: [],
-  templateUrl: './vehiculos.html',
-  styleUrl: './vehiculos.scss',
+export interface VehiculoIn {
+  placa: string;
+  propietario: string;
+  marca: string;
+  fabricacion: number;
+  valor_comercial: number;
+}
+
+export interface VehiculoOut extends VehiculoIn {
+  impuesto: number;
+  codigo_revision: string;
+}
+
+@Injectable({
+  providedIn: 'root'
 })
-export class Vehiculos {
+export class VehiculosService {
 
+  private url = 'http://127.0.0.1:8000/vehiculos';
+
+  constructor(private http: HttpClient) {}
+
+  crear(v: VehiculoIn): Observable<VehiculoOut> {
+    return this.http.post<VehiculoOut>(this.url, v);
+  }
+
+  listar(): Observable<VehiculoOut[]> {
+    return this.http.get<VehiculoOut[]>(this.url);
+  }
 }

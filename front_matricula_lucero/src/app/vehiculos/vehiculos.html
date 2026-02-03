@@ -1,1 +1,28 @@
-<p>vehiculos works!</p>
+<h2>Matrícula Vehicular</h2>
+
+<div *ngIf="error" style="color:red">{{ error }}</div>
+
+<form (ngSubmit)="guardar()">
+  <input [(ngModel)]="form.placa" name="placa" placeholder="Placa ABC-1234" required>
+  <input [(ngModel)]="form.propietario" name="propietario" placeholder="Propietario" required>
+  <input [(ngModel)]="form.marca" name="marca" placeholder="Marca" required>
+  <input [(ngModel)]="form.fabricacion" name="fabricacion" type="number" required>
+  <input [(ngModel)]="form.valor_comercial" name="valor_comercial" type="number" required>
+  <button type="submit">Guardar</button>
+</form>
+
+<table>
+  <tr>
+    <th>Placa</th><th>Propietario</th><th>Marca</th>
+    <th>Año</th><th>Valor</th><th>Impuesto</th><th>Código</th>
+  </tr>
+  <tr *ngFor="let v of lista" [style.border]="impuestoAlto(v) ? '2px solid orange' : ''">
+    <td>{{ v.placa }} <span *ngIf="impuestoAlto(v)">⚠️</span></td>
+    <td>{{ v.propietario }}</td>
+    <td>{{ v.marca }}</td>
+    <td>{{ v.fabricacion }}</td>
+    <td>{{ v.valor_comercial }}</td>
+    <td>{{ v.impuesto }}</td>
+    <td>{{ v.codigo_revision }}</td>
+  </tr>
+</table>
